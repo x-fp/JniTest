@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
         mText = findViewById(R.id.textview1);
 
         JniTest jniTest = new JniTest();
-        
+
         mText.setText(jniTest.get());
+
     }
 }
