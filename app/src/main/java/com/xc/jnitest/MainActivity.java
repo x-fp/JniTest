@@ -21,6 +21,5 @@ public class MainActivity extends AppCompatActivity {
         JniTest jniTest = new JniTest();
 
         mText.setText(jniTest.get());
-        //哈哈
     }
 }
