@@ -2,15 +2,31 @@
 #include <jni.h>
 /* Header for class com_xc_jnitest_exercise_JniTest */
 
+//导入log库
+#include <android/log.h>
+
+//宏定义
+#define TAG "jni_log"
+//
+#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, TAG, __VA_ARGS__))
+#define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, TAG, __VA_ARGS__))
+#define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__))
+
 #ifndef _Included_com_xc_jnitest_exercise_JniTest
 #define _Included_com_xc_jnitest_exercise_JniTest
+
 #ifdef __cplusplus
+
+
+
 extern "C" {
 #endif
 
 jstring get (JNIEnv *, jobject);
 
 void set (JNIEnv *, jobject, jstring);
+
+jintArray formatArray (JNIEnv *, jobject, jintArray);
 
 #ifdef __cplusplus
 }

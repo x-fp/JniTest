@@ -1,23 +1,72 @@
 #include <jni.h>
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 #include "jni-test.h"
 
+
+
 jstring get(JNIEnv *env, jobject obj) {
+
+    //定义类的路径
+    char *classPath = "com/xc/jnitest/exercise/JniTest";
+    //找到类
+    jclass jclass1 = env->FindClass(classPath);
+    if(jclass1==NULL){
+        return JNI_FALSE;
+    }
+
+    //定义方法名
+    char *methodName ="javaMethod";
+    //定义参数和返回值类型
+    char *parameter = "(Ljava/lang/String;)V";
+    //得到方法ID
+    jmethodID methodId = env->GetStaticMethodID(jclass1, methodName, parameter);
+    if(methodId==NULL){
+        return JNI_FALSE;
+    }
+
+    //调用java方法
+    jstring str = env->NewStringUTF("This is Jni Call");
+    env->CallStaticVoidMethod(jclass1, methodId, str);
+
+    //释放资源
+    env->DeleteLocalRef(jclass1);
+    env->DeleteLocalRef(str);
+
     return env->NewStringUTF("Hello from JNI !");
 }
 
 
 void set(JNIEnv *env, jobject obj, jstring string) {
-    char *str = (char *) env->GetStringUTFChars(string, NULL);
+    const char *str = (char *) env->GetStringUTFChars(string, NULL);
+
+    LOGE("hello %s",str);
+
     env->ReleaseStringUTFChars(string, str);
+
+}
+
+jintArray formatArray(JNIEnv *env, jobject obj, jintArray array) {
+
+    jint nativeArray[5];
+
+    env->GetIntArrayRegion(array, 0, 5, nativeArray);
+
+    for (int i = 0; i < 5; ++i) {
+        nativeArray[i] += 5;
+    }
+    env->SetIntArrayRegion(array, 0, 5, nativeArray);
+    return array;
+
 }
 
 //参数映射表
 static JNINativeMethod getMethods[] = {
-        {"get", "()Ljava/lang/String;", (void *) get},
-        {"set", "(Ljava/lang/String;)V", (void *) set},
+        {"get",         "()Ljava/lang/String;",  (void *) get},
+        {"set",         "(Ljava/lang/String;)V", (void *) set},
+//        {"formatArray", " ([I)[I",              (void *) formatArray},
 };
 
 //native类路径
