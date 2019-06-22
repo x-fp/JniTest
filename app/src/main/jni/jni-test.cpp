@@ -45,12 +45,13 @@ jstring get(JNIEnv *env, jobject obj) {
 
     //定义构造方法名
     char *constructor_methodName = "<init>";
+    //得到这个类的构造方法ID
     jmethodID construtor_methodId = env->GetMethodID(jclass1, constructor_methodName, "()V");
     if (construtor_methodId == NULL) {
         return JNI_FALSE;
     }
 
-    //得到object对象
+    //使用构造方法Id获取object对象
     jobject jobject1 = env->NewObject(jclass1, construtor_methodId, NULL);
 
     //调用java 非static 方法
