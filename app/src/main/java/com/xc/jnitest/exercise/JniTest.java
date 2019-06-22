@@ -15,7 +15,11 @@ public class JniTest {
     public native int[] formatArray(int[] array);
 
 
-    public static void javaMethod(String str) {
+    public static void staticMethod(String str) {
+        Log.e("jniTest", str);
+    }
+
+    public void javaMethod(String str){
         Log.e("jniTest", str);
     }
 }
